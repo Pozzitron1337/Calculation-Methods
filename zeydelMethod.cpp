@@ -47,7 +47,7 @@ void iterations(double AA[N][N],double d[N],double *x){
     int t=0;
     double AAx[N];
     double r[N];
-    fstream fout("iteration.txt",ios::app);
+    fstream fout("iteration_lab3.txt",ios::app);
     do{
         e=false;
         //main iterations:
@@ -69,7 +69,7 @@ void iterations(double AA[N][N],double d[N],double *x){
         fout<<"iteration "<<(t++)<<":"<<endl<<"r: "<<endl;
         for(int i=0;i<N;i++){
             r[i]=(d[i]-AAx[i]);
-            fout<<r[i]<<endl;
+            fout<<r[i]<<endl;//print to file
         }
         printVector(r);
     }while(e);

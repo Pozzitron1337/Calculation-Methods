@@ -1,13 +1,13 @@
 #include "header.h"
 
-void initTriangleMatrix(double a[N][N],double t[N][N]){
+void initTriangleMatrix(double a[dimension_of_matrix][dimension_of_matrix],double t[dimension_of_matrix][dimension_of_matrix]){
     t[0][0]=sqrt(a[0][0]);
-    for(int k=1;k<N;k++){
+    for(int k=1;k<dimension_of_matrix;k++){
         t[k][0]=a[k][0]/t[0][0];
         t[0][k]=0;
     }
-    for(int i=1;i<N;i++){
-        for(int j=1;j<N;j++){
+    for(int i=1;i<dimension_of_matrix;i++){
+        for(int j=1;j<dimension_of_matrix;j++){
             if(i>j){
                 t[i][j]=a[i][j];
                 for(int k=0;k<j;k++){
@@ -32,9 +32,9 @@ void initTriangleMatrix(double a[N][N],double t[N][N]){
 
 
 }
-void transTriangleMatrix(double t[N][N],double trans[N][N]){
-    for(int i=0;i<N;i++){
-        for(int j=0;j<N;j++){
+void transTriangleMatrix(double t[dimension_of_matrix][dimension_of_matrix],double trans[dimension_of_matrix][dimension_of_matrix]){
+    for(int i=0;i<dimension_of_matrix;i++){
+        for(int j=0;j<dimension_of_matrix;j++){
             if(i<=j){
                 trans[i][j]=t[j][i];
             }
@@ -45,9 +45,9 @@ void transTriangleMatrix(double t[N][N],double trans[N][N]){
     }
 
 }
-void initY(double t[N][N],double b[N],double y[N]){
+void initY(double t[dimension_of_matrix][dimension_of_matrix],double b[dimension_of_matrix],double y[dimension_of_matrix]){
     y[0]=b[0]/t[0][0];
-    for(int i=1;i<N;i++){
+    for(int i=1;i<dimension_of_matrix;i++){
         y[i]=0;
         y[i]+=b[i];
         for(int j=0;j<i;j++){
@@ -56,48 +56,50 @@ void initY(double t[N][N],double b[N],double y[N]){
         y[i]/=t[i][i];
     }
 }
-void initX(double trans[N][N],double y[N],double x[N]){
-    x[N-1]=y[N-1]/trans[N-1][N-1];
-    for(int i=N-2;i>=0;i--){
+void initX(double trans[dimension_of_matrix][dimension_of_matrix],double y[dimension_of_matrix],double x[dimension_of_matrix]){
+    x[dimension_of_matrix-1]=y[dimension_of_matrix-1]/trans[dimension_of_matrix-1][dimension_of_matrix-1];
+    for(int i=dimension_of_matrix-2;i>=0;i--){
         x[i]=0;
         x[i]+=y[i];
-        for(int j=N-1;j>i;j--){
+        for(int j=dimension_of_matrix-1;j>i;j--){
             x[i]-=(trans[i][j]*x[j]);
         }
         x[i]/=trans[i][i];
     }
 
 }
-void checking(double a[N][N],double x[N],double b[N]){
-    double* Ax=new double[N];
+void checking(double a[dimension_of_matrix][dimension_of_matrix],double x[dimension_of_matrix],double b[dimension_of_matrix]){
+    double* Ax=new double[dimension_of_matrix];
     cout<<"check А*х:"<<endl;
-    for(int i=0;i<N;i++){
-        for(int j=0;j<N;j++){
+    for(int i=0;i<dimension_of_matrix;i++){
+        for(int j=0;j<dimension_of_matrix;j++){
             Ax[i]+=a[i][j]*x[j];
         }
         cout<<Ax[i]<<endl;
     }
     cout<<"error:"<<endl;
-    for(int i=0;i<N;i++){
+    for(int i=0;i<dimension_of_matrix;i++){
         cout<<Ax[i]-b[i]<<endl;
     }
     
 }
-void squareMethod(double A[N][N],double b[N]){
 
-    double T[N][N];
+//should be rewrited
+void squareMethod(double A[dimension_of_matrix][dimension_of_matrix],double b[dimension_of_matrix]){
+
+    double T[dimension_of_matrix][dimension_of_matrix];
     initTriangleMatrix(A,T);
     cout<<"T:"<<endl;
     printMatrix(T);
-    double y[N];
+    double y[dimension_of_matrix];
     initY(T,b,y);
     cout<<"y:"<<endl;
     printVector(y);
-    double Trans[N][N];
+    double Trans[dimension_of_matrix][dimension_of_matrix];
     transTriangleMatrix(T,Trans);
     cout<<"T trans:"<<endl;
     printMatrix(Trans);
-    double x[N];
+    double x[dimension_of_matrix];
     initX(Trans,y,x);
     cout<<"x:"<<endl;
     printVector(x);

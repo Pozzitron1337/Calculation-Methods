@@ -4,11 +4,11 @@
 #include <fstream>
 using namespace std;
 
-#define N 4
+#define dimension_of_matrix 4
 
-void printMatrix(double a[N][N]){
-    for(int i=0;i<4;i++){//row
-        for(int j=0;j<4;j++){//column
+void printMatrix(double a[dimension_of_matrix][dimension_of_matrix]){
+    for(int i=0;i<dimension_of_matrix;i++){//row
+        for(int j=0;j<dimension_of_matrix;j++){//column
             cout<<a[i][j]<<"   ";
         }    
         cout<<endl;
@@ -16,9 +16,8 @@ void printMatrix(double a[N][N]){
     cout<<endl;
 }
 
-void printVector(double x[N]){
-    for(int i=0;i<N;i++){
+void printVector(double x[dimension_of_matrix]){
+    for(int i=0;i<dimension_of_matrix;i++){
         cout<<x[i]<<endl;
     }
 }
-

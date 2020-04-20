@@ -1,4 +1,26 @@
-#include "header.h"
+#pragma once
+#include <iostream>
+#include <cmath>
+#include <fstream>
+using namespace std;
+
+#define dimension_of_matrix 4
+namespace zeydel{
+void printMatrix(double a[dimension_of_matrix][dimension_of_matrix]){
+    for(int i=0;i<dimension_of_matrix;i++){//row
+        for(int j=0;j<dimension_of_matrix;j++){//column
+            cout<<a[i][j]<<"   ";
+        }    
+        cout<<endl;
+    }
+    cout<<endl;
+}
+
+void printVector(double x[dimension_of_matrix]){
+    for(int i=0;i<dimension_of_matrix;i++){
+        cout<<x[i]<<endl;
+    }
+}
 
 void transponseMatrix(double A[dimension_of_matrix][dimension_of_matrix],double T[dimension_of_matrix][dimension_of_matrix]){
     for(int i=0;i<dimension_of_matrix;i++){
@@ -74,27 +96,28 @@ void iterations(double AA[dimension_of_matrix][dimension_of_matrix],double d[dim
         //printVector(r);
     }while(e);
 }
-
+}
+//should be rewritten
 void zeydelMethod(double A[dimension_of_matrix][dimension_of_matrix],double b[dimension_of_matrix]){
     cout<<"A:"<<endl;
-    printMatrix(A);
+    zeydel::printMatrix(A);
     double A_trans[dimension_of_matrix][dimension_of_matrix];
-    transponseMatrix(A,A_trans);
+    zeydel::transponseMatrix(A,A_trans);
     cout<<"A transponce:"<<endl;
-    printMatrix(A_trans);
+    zeydel::printMatrix(A_trans);
     double Atrans_A[dimension_of_matrix][dimension_of_matrix];
-    multipleMatrix(A_trans,A,Atrans_A);
+    zeydel::multipleMatrix(A_trans,A,Atrans_A);
     cout<<"A_trans * A:"<<endl;
-    printMatrix(Atrans_A);
+    zeydel::printMatrix(Atrans_A);
     double d[dimension_of_matrix];
-    multipleMatrixOnVector(A_trans,b,d);
+    zeydel::multipleMatrixOnVector(A_trans,b,d);
     cout<<"A_trans * d:"<<endl;
-    printVector(d);
-    normalize(Atrans_A,d);
+    zeydel::printVector(d);
+    zeydel::normalize(Atrans_A,d);
     cout<<"Normalize:"<<endl;
-    printMatrix(Atrans_A);
-    printVector(d);
+    zeydel::printMatrix(Atrans_A);
+    zeydel::printVector(d);
     double *x=new double[dimension_of_matrix];
-    iterations(Atrans_A,d,x);
-    printVector(x);
+    zeydel::iterations(Atrans_A,d,x);
+    zeydel::printVector(x);
 }

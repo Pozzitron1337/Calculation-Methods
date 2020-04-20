@@ -1,6 +1,8 @@
-#include "squareMethod.cpp"
-#include "zeydelMethod.cpp"
-#include "jacobiMethod.cpp"
+#include "squareMethod/squareMethod.cpp"
+#include "zeydelMethod/zeydelMethod.cpp"
+#include "jacobiMethod/jacobiMethod.cpp"
+#include "interpolation/newtonInterpolation.cpp"
+#include "interpolation/splineInterpolation.cpp"
 
 void lab2(){
     cout<<"lab2,variant 16:"<<endl;
@@ -39,11 +41,23 @@ void lab4(){
 
 }
 
+namespace lab5data{
+    double leftPoint=-M_PI/3;
+    double rightPoint=M_PI/3;  
+    double f(double x){
+        return x*atan(x);
+    }
+}
+void lab5(){
+    newtonInterpolation(lab5data::f,lab5data::leftPoint,lab5data::rightPoint,11);
+    splineInterpolation(lab5data::f,lab5data::leftPoint,lab5data::rightPoint,11);
+}
+
 int main(){
     //lab2();
     //lab3();
-    lab4();
-    
+    //lab4();
+    lab5();
     return 0;
 }
 

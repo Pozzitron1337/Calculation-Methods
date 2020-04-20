@@ -1,4 +1,25 @@
-#include "header.h"
+#include <iostream>
+#include <cmath>
+#include <fstream>
+using namespace std;
+
+#define dimension_of_matrix 4
+namespace square{
+void printMatrix(double a[dimension_of_matrix][dimension_of_matrix]){
+    for(int i=0;i<dimension_of_matrix;i++){//row
+        for(int j=0;j<dimension_of_matrix;j++){//column
+            cout<<a[i][j]<<"   ";
+        }    
+        cout<<endl;
+    }
+    cout<<endl;
+}
+
+void printVector(double x[dimension_of_matrix]){
+    for(int i=0;i<dimension_of_matrix;i++){
+        cout<<x[i]<<endl;
+    }
+}
 
 void initTriangleMatrix(double a[dimension_of_matrix][dimension_of_matrix],double t[dimension_of_matrix][dimension_of_matrix]){
     t[0][0]=sqrt(a[0][0]);
@@ -83,25 +104,24 @@ void checking(double a[dimension_of_matrix][dimension_of_matrix],double x[dimens
     }
     
 }
-
-//should be rewrited
+}
+//should be rewritten
 void squareMethod(double A[dimension_of_matrix][dimension_of_matrix],double b[dimension_of_matrix]){
-
     double T[dimension_of_matrix][dimension_of_matrix];
-    initTriangleMatrix(A,T);
+    square::initTriangleMatrix(A,T);
     cout<<"T:"<<endl;
-    printMatrix(T);
+    square::printMatrix(T);
     double y[dimension_of_matrix];
-    initY(T,b,y);
+    square::initY(T,b,y);
     cout<<"y:"<<endl;
-    printVector(y);
+    square::printVector(y);
     double Trans[dimension_of_matrix][dimension_of_matrix];
-    transTriangleMatrix(T,Trans);
+    square::transTriangleMatrix(T,Trans);
     cout<<"T trans:"<<endl;
-    printMatrix(Trans);
+    square::printMatrix(Trans);
     double x[dimension_of_matrix];
-    initX(Trans,y,x);
+    square::initX(Trans,y,x);
     cout<<"x:"<<endl;
-    printVector(x);
-    checking(A,x,b);
+    square::printVector(x);
+    square::checking(A,x,b);
 }

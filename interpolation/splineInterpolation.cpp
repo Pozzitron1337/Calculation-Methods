@@ -1,22 +1,39 @@
 #include <iostream>
 #include <cmath>
+#include <fstream>
 #include "../triagonalMatrixAlgorithm/triagonalMatrixAlgorithm.cpp"
 using namespace std;
 
 namespace splineFunctions{
-    double calculateInterpolationPolynom(double x,double x_0,double *a,double *b,double *c,double *d){
-        return a[0]+b[0]*(x-x_0)+c[0]*(x-x_0)*(x-x_0)+d[0]*(x-x_0)*(x-x_0)*(x-x_0);
+    double calculateInterpolationPolynom(double x,double x_0,double *a,double *b,double *c,double *d,int i){
+        return a[i]+b[i]*(x-x_0)+c[i]*(x-x_0)*(x-x_0)+d[i]*(x-x_0)*(x-x_0)*(x-x_0);
     }
+    double findNearestNode(double x,double *nodes,int nodeSize,int &nearestIndex){
+        double difference=abs(x-nodes[0]);
+        for(int i=1;i<nodeSize;i++){
+           if(abs(difference)<=abs(x-nodes[i])){
+               nearestIndex=i-1;
+               return nodes[i-1];
+           }else{
+               difference=x-nodes[i];
+           }
+        }
+        nearestIndex=nodeSize-1;
+        return nodes[nodeSize-1];
+    }
+
 
 }
 
 void splineInterpolation(double (*f)(double),double leftSide,double rightSide,int steps){
     double step=(rightSide-leftSide)/((double)steps-1.0);
+    double *nodes=new double[steps];
     double *a=new double[steps];
     double x=leftSide;
-    int n=steps-1;
+    int n=steps;
     for(int i=0;i<n;i++){
         a[i]=f(x);
+        nodes[i]=x;
         x+=step;
     }
     double *c=new double[n];
@@ -49,14 +66,27 @@ void splineInterpolation(double (*f)(double),double leftSide,double rightSide,in
     b[n-1]=(a[n-1]-a[n-2])/step-(2.0*step*c[n-1]/3.0);
     
     fstream fout("interpolation/SplineInterpolationOutput.txt",ios::trunc|ios::out);
+    fstream splinefunction("interpolation/splineFunction.txt",ios::trunc|ios::out);
+    fstream splineinterpolation("interpolation/splineinterpolation.txt",ios::trunc|ios::out);
+    fstream splineerror("interpolation/splineError.txt",ios::trunc|ios::out);
     fout<<"x : f(x) : interpolation : error"<<endl;
     x=leftSide;
     double valueOfInterpolationPolynom;
     double fx;
-    for(int i=0;i<steps;i++){
-        valueOfInterpolationPolynom=splineFunctions::calculateInterpolationPolynom(x,leftSide,a,b,c,d);
+    double nearest;
+    x=leftSide;
+
+    //step=(rightSide-leftSide)/((double)iterations-1.0);
+    int i;
+    while(x<rightSide){
         fx=f(x);
+        nearest=splineFunctions::findNearestNode(x,nodes,steps,i);
+        valueOfInterpolationPolynom=splineFunctions::calculateInterpolationPolynom(x,nearest,a,b,c,d,i);
         fout<<x<<" : "<<fx<<" : "<<valueOfInterpolationPolynom<<" : "<<fx-valueOfInterpolationPolynom<<endl;
-        x+=step;
+        splinefunction<<x<<" "<<fx<<endl;
+        splineinterpolation<<x<<" "<<valueOfInterpolationPolynom<<endl;
+        splineerror<<x<<" "<<100*(fx-valueOfInterpolationPolynom)<<endl;
+        x+=0.001;
     }
+
 }

@@ -52,6 +52,9 @@ void newtonInterpolation(double (*f)(double),double leftSide,double rightSide,in
     }while((steps-n)>2);
     
     fstream fout("interpolation/NewtonInterpolationOutput.txt",ios::trunc|ios::out);
+    fstream newtonfunction("interpolation/newtonFunction.txt",ios::trunc|ios::out);
+    fstream newtoninterpolation("interpolation/newtoninterpolation.txt",ios::trunc|ios::out);
+    fstream newtonerror("interpolation/newtonError.txt",ios::trunc|ios::out);
     fout<<"x : f(x) : interpolation : error"<<endl;
     x=leftSide;
     double valueOfInterpolationPolynom;
@@ -60,6 +63,9 @@ void newtonInterpolation(double (*f)(double),double leftSide,double rightSide,in
         valueOfInterpolationPolynom=newtonFunctions::calculateInterpolationPolynom(steps,x,a,leftSide,step);
         fx=f(x);
         fout<<x<<" : "<<fx<<" : "<<valueOfInterpolationPolynom<<" : "<<fx-valueOfInterpolationPolynom<<endl;
+        newtonfunction<<x<<" "<<fx<<endl;
+        newtoninterpolation<<x<<" "<<valueOfInterpolationPolynom<<endl;
+        newtonerror<<x<<" "<<fx-valueOfInterpolationPolynom<<endl;
         x+=step;
     }
     

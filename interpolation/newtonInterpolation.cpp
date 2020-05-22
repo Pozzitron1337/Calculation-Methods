@@ -68,5 +68,5 @@ void newtonInterpolation(double (*f)(double),double leftSide,double rightSide,in
         newtonerror<<x<<" "<<fx-valueOfInterpolationPolynom<<endl;
         x+=step;
     }
-    
+    fout.close();
 }

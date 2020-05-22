@@ -1,0 +1,2 @@
+plot "rungecutt.txt" with lines, "adamsbashford.txt" with lines, "function.txt" with lines, "error.txt" with lines
+

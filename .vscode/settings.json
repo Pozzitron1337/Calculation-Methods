@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "iosfwd": "cpp"
     },
     "python.pythonPath": "/bin/python3.7"
 }

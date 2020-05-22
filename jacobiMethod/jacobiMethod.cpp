@@ -41,4 +41,5 @@ void jacobiMethod(double input_matrix[N][N],double epsilon=0.00001){
     for(size_t i=0;i<N;i++){
         fout<<A(i,i)<<" , ";
     }
+    fout.close();
 }

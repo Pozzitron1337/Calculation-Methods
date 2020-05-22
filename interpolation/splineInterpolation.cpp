@@ -88,5 +88,5 @@ void splineInterpolation(double (*f)(double),double leftSide,double rightSide,in
         splineerror<<x<<" "<<100*(fx-valueOfInterpolationPolynom)<<endl;
         x+=0.001;
     }
-
+    fout.close();
 }

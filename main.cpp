@@ -3,6 +3,8 @@
 #include "jacobiMethod/jacobiMethod.cpp"
 #include "interpolation/newtonInterpolation.cpp"
 #include "interpolation/splineInterpolation.cpp"
+#include "derivative/runge_cutt.cpp"
+#include "derivative/adams_bashford.cpp"
 
 void lab2(){
     cout<<"lab2,variant 16:"<<endl;
@@ -53,12 +55,94 @@ void lab5(){
     splineInterpolation(lab5data::f,lab5data::leftPoint,lab5data::rightPoint,11);
 }
 
+void myTest(){
+double a[8][4]={{1,50.78},
+                {1,30.25},
+                {1,81.03},
+                {1,99.33},
+                {1,50.42},
+                {1,40.59},
+                {1,91.01},
+                {1,88.63}
+                };
+for(int j=0;j<8;j++){
+    for(int i=2;i<4;i++){
+        a[j][i]=a[j][i-1]*a[j][1];
+    }
+}
+matrix<double,8,4> A(a);
+A.print();
+cout<<endl;
+matrix<double,4,8> At;
+At=A.transponce();
+At.print();
+matrix<double,4,4> B;
+B=At*A;
+B.print();
+
+}
+
+
+namespace lab6data{
+    double y(double x){
+        return tan(x);
+    }
+    double leftPoint=0;
+    double rightPoint=1;  
+    double step=0.09;
+    double y_0=y(leftPoint);
+    
+    double f(double x,double y){
+        return (1-x*x)*(y-tan(x))+1/(cos(x)*cos(x));
+    }   
+}
+void lab6(){
+    runge_cutt(lab6data::f,lab6data::leftPoint,lab6data::rightPoint,lab6data::step,lab6data::y_0);
+    adams_bashford(lab6data::f);
+    fstream fout("derivative/function.txt",ios::trunc|ios::out);
+    double x=lab6data::leftPoint;
+    while (x<lab6data::rightPoint){
+        fout<<x<<" "<<lab6data::y(x)<<endl;
+        x+=lab6data::step;
+    }
+    fout.close();
+    fstream rungecutt("derivative/rungecutt.txt");
+    fstream adamsbashford("derivative/adamsbashford.txt");
+    string line;
+    int lines=0;
+    while (rungecutt>>line){
+        lines++;
+    }
+    lines/=2;
+    rungecutt.clear();
+    rungecutt.seekg(0);
+    double u[lines];
+    double y1[lines];
+    double y2[lines];
+    int i=0;
+    while (i<lines){
+        rungecutt>>u[i];
+        rungecutt>>y1[i];
+        adamsbashford>>y2[i];
+        adamsbashford>>y2[i];
+        i++;
+    }
+    rungecutt.close();
+    adamsbashford.close();
+    fstream error("derivative/error.txt",ios::trunc|ios::out);
+    for(int i=0;i<lines;i++){
+        error<<u[i]<<" "<<abs(y1[i]-y2[i])<<endl;
+    }
+    error.close();
+    
+}
+
 int main(){
     //lab2();
     //lab3();
     //lab4();
-    lab5();
+    //lab5();
+    lab6();
+    //myTest();
     return 0;
 }
-
-

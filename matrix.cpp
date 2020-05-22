@@ -68,9 +68,26 @@ class matrix{
             }
             return result;
         } 
+        // template<size_t new_col_size>
+        // matrix<T,row_size,new_col_size> operator*(matrix<T,row_size,new_col_size>& m){
+        //     matrix<T,row_size,new_col_size> result;
+        //     T temp=(T)0;
+        //     for(size_t i=0;i<row_size;i++){
+        //         for(size_t j=0;j<new_col_size;j++){
+        //             for (size_t k = 0; k <col_size; k++){
+        //                 temp+=this->M[i][k]*m(k,j);
+        //             }
+        //             result(i,j,temp);
+        //             temp=(T)0;
+        //         } 
+        //     }
+        //     return result;
+        // }
+
         template<size_t new_col_size>
-        matrix<T,row_size,new_col_size> operator*(matrix<T,row_size,new_col_size>& m){
+        matrix<T,row_size,new_col_size> operator*(matrix<T,col_size,new_col_size>& m){
             matrix<T,row_size,new_col_size> result;
+            cout<<new_col_size<<endl;
             T temp=(T)0;
             for(size_t i=0;i<row_size;i++){
                 for(size_t j=0;j<new_col_size;j++){
